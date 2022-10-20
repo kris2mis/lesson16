@@ -120,3 +120,4 @@ if __name__ == "__main__":
     assert check_password("sekdjfhgk1223356") == "strong"
 
 
+
