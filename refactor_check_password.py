@@ -1,15 +1,10 @@
-# программа надежность пароля
-# conditions
-# 1.   len < 8  - too weak
-# 2. 2345678  or QWERTY  or wertyu - weak
-# 3. 2345 and WERTY and werty or QWERT and qwer - strong
-# 4.  2345 and QWERT and qwerty - very strong
-
-# ДО РЕФАКТЕРИНГА
+# ПОСЛЕ РЕФАКТЕРИНГА
 
 DIGITS = "0123456789"
-LOWER_CASE = "qwertyuiopasdfghjklzxcvbnm"
-UPPER_CASE = "QWERTYUIOPASDFGHJKLZXCVBNM"
+LOWER_CASE = "qwertyuiopasdfghhjklzxcvbnm"
+UPPER_CASE = "QWERTYUIOPASDFGHJKKLZXCVBNMN"
+
+password = "12345rtye"
 
 
 def check_password(password):
@@ -18,27 +13,25 @@ def check_password(password):
             or len(password.strip()) == 0):
         return -1
 
-    password = password.strip()  # убрали все пробелы в пароле
+    password = password.strip()
 
     # logic
     if len(password) < 8:
         return "too weak"
 
-    # проверка есть ли символ (ch) в DIGIT
+    # weak
     is_digit = True
     for ch in password:
         if ch not in DIGITS:
             is_digit = False
             break
 
-    # проверка есть ли символ (ch) в LOWER_CASE
     is_lower = True
     for ch in password:
         if ch not in LOWER_CASE:
             is_lower = False
             break
 
-    # проверка есть ли символ (ch) в UPPER_CASE
     is_upper = True
     for ch in password:
         if ch not in UPPER_CASE:
@@ -48,7 +41,7 @@ def check_password(password):
     if is_upper or is_lower or is_digit:
         return "weak"
 
-    # проверка на   very strong
+    # very strong
     is_digit = False
     for ch in password:
         if ch in DIGITS:
@@ -67,7 +60,7 @@ def check_password(password):
             is_upper = True
             break
 
-    if is_digit and is_lower and is_upper:
+    if is_lower and is_upper and is_digit:
         return "very strong"
 
     return "strong"
@@ -89,7 +82,7 @@ if __name__ == "__main__":
     assert check_password("t") == "too weak"
 
     assert check_password("12345678") == "weak"
-    assert check_password("123456789") == "weak"  # проверка граничного значения
+    assert check_password("123456789") == "weak"
     assert check_password("QWERTYUI") == "weak"
     assert check_password("QWERTYUIOP") == "weak"
     assert check_password("qwertyui") == "weak"
